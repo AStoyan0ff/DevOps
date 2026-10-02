@@ -1,0 +1,31 @@
+﻿# Dependencies
+node_modules/
+
+# Build output
+bin/
+obj/
+target/
+
+# IDE files
+.vs/
+.idea/
+*.user
+*.suo
+
+# Test reports
+test-results/
+playwright-report/
+TestResults/
+coverage/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
