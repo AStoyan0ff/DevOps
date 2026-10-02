@@ -14,26 +14,32 @@ pipeline {
 
         stage('Restore') {
             steps {
-                bat 'dotnet restore SeleniumIde.sln'
+                dir('7.Exercise-CI-CD-Jenkins/05-SeleniumIDE') {
+                    bat 'dotnet restore SeleniumIde.sln'
+                }
             }
         }
 
         stage('Build') {
             steps {
-                bat 'dotnet build SeleniumIde.sln --no-restore'
+                dir('7.Exercise-CI-CD-Jenkins/05-SeleniumIDE') {
+                    bat 'dotnet build SeleniumIde.sln --no-restore'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                bat 'dotnet test SeleniumIde.sln --no-build --logger trx'
+                dir('7.Exercise-CI-CD-Jenkins/05-SeleniumIDE') {
+                    bat 'dotnet test SeleniumIde.sln --no-build --logger trx'
+                }
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: '**/TestResults/*.trx',
+            archiveArtifacts artifacts: '7.Exercise-CI-CD-Jenkins/05-SeleniumIDE/**/TestResults/*.trx',
                              allowEmptyArchive: true
         }
     }
