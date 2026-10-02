@@ -1,0 +1,43 @@
+name: House Renting System CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "5.Exersice-CI-CD-GitHub-Actions/04-House-Renting-System-App/**"
+      - ".github/workflows/house-renting-ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "5.Exersice-CI-CD-GitHub-Actions/04-House-Renting-System-App/**"
+      - ".github/workflows/house-renting-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: 5.Exersice-CI-CD-GitHub-Actions/04-House-Renting-System-App
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore HouseRentingSystem.sln
+
+      - name: Build solution
+        run: dotnet build HouseRentingSystem.sln --no-restore
+
+      - name: Run tests
+        run: dotnet test HouseRentingSystem.sln --no-build
