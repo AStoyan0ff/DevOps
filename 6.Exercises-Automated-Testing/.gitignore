@@ -1,0 +1,22 @@
+# Node.js
+**/node_modules/
+
+# .NET
+**/bin/
+**/obj/
+**/TestResults/
+*.user
+*.suo
+
+# Playwright
+**/playwright-report/
+**/test-results/
+**/blob-report/
+
+# IDE
+.vs/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
