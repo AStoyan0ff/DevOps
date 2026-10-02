@@ -1,18 +1,23 @@
 name: Student Registry CI
-
-on:
+    # events
+"on":
     push:
-        branches: [main]
-
+        branches:
+            - main
     pull_request:
-        branches: [main]
+        branches:
+            - main
 
+    # workflow        
 jobs:
     test:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [18.x, 20.x, 22.x]
+                node-version:
+                    - 18.x
+                    - 20.x
+                    - 22.x
         steps:
             - name: Checkout repository
               uses: actions/checkout@v7
@@ -20,14 +25,14 @@ jobs:
             - name: Set up Node.js
               uses: actions/setup-node@v7
               with:
-                  node-version: ${{ matrix.node-version }}
+                  node-version: "${{ matrix.node-version }}"
 
             - name: Install dependencies
               run: npm ci
 
             - name: Start application
               run: npm start &
-
+              
             - name: Wait for application
               run: |
                   for attempt in {1..20}; do
@@ -38,19 +43,16 @@ jobs:
                   done
                   echo "Application did not start"
                   exit 1
-
             - name: Run tests
               run: npm test
-
     deploy:
         needs: test
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         runs-on: ubuntu-latest
-
+        
         steps:
             - name: Deploy to Render
               uses: johnbeynon/render-deploy-action@v0.0.8
               with:
-                  service-id: ${{ secrets.SERVICE_ID }}
-                  api-key: ${{ secrets.RENDER_TOKEN }}
-                  
+                  service-id: "${{ secrets.SERVICE_ID }}"
+                  api-key: "${{ secrets.RENDER_TOKEN }}"
