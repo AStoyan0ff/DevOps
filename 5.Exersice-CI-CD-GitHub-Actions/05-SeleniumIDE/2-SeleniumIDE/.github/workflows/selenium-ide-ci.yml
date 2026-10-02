@@ -1,0 +1,33 @@
+name: Selenium IDE CI
+
+on:
+    push:
+        branches: [main]
+    pull_request: 
+        branches: [main]
+        
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        steps:
+
+            - name: Checkout repository
+              uses: actions/checkout@v7
+
+            - name: Set up .NET 8
+              uses: actions/setup-dotnet@v6
+              
+              with:
+                dotnet-version: "8.0.x"
+
+            - name: Check Chrome
+              run: google-chrome --version 
+              
+            - name: Restore dependencies
+              run: dotnet restore SeleniumIde.sln
+              
+            - name: Buils solution
+              run: dotnet build SeleniumIde.sln --no-restore 
+              
+            - name: Run Selenium IDE test
+              run: dotnet test SeleniumIde.sln --no-build --verbosity normal   
