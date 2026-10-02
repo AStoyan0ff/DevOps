@@ -4,12 +4,11 @@ using OpenQA.Selenium.Support.UI;
 using NUnit.Framework;
 using System;
 
-namespace TestProject1
-{
+namespace TestProject1 {
 
     [TestFixture]
-    public class TestCalculator
-    {
+    public class TestCalculator {
+    
 
         IWebDriver driver;
         IWebElement textBoxFirstNum;
