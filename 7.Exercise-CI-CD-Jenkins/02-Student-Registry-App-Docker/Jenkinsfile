@@ -21,13 +21,17 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                bat 'call npm.cmd ci'
+                dir('7.Exercise-CI-CD-Jenkins/02-Student-Registry-App-Docker') {
+                    bat 'call npm.cmd ci'
+                }
             }
         }
 
         stage('Run tests') {
             steps {
-                bat 'call npm.cmd test'
+                dir('7.Exercise-CI-CD-Jenkins/02-Student-Registry-App-Docker') {
+                    bat 'call npm.cmd test'
+                }
             }
         }
     }
