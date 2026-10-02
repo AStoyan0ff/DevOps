@@ -1,0 +1,46 @@
+name: Selenium IDE CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "5.Exersice-CI-CD-GitHub-Actions/05-SeleniumIDE/2-SeleniumIDE/**"
+      - ".github/workflows/selenium-ide-ci.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "5.Exersice-CI-CD-GitHub-Actions/05-SeleniumIDE/2-SeleniumIDE/**"
+      - ".github/workflows/selenium-ide-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: 5.Exersice-CI-CD-GitHub-Actions/05-SeleniumIDE/2-SeleniumIDE
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Check Chrome
+        run: google-chrome --version
+
+      - name: Restore dependencies
+        run: dotnet restore SeleniumIde.sln
+
+      - name: Build solution
+        run: dotnet build SeleniumIde.sln --no-restore
+
+      - name: Run Selenium IDE tests
+        run: dotnet test SeleniumIde.sln --no-build --verbosity normal
